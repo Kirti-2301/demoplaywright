@@ -1,9 +1,12 @@
-const {test, expect} = require('@playwright/test');
+const { test, expect } = require("@playwright/test");
+const LoginPage = require("../pages/LoginPage");
 
-test('Login test', async ({page}) => {
-  await page.goto('https://new-qa.symtrain.com/');
-  await page.fill('#username', 'kirti-superorgadmin');
-  await page.fill('#password', 'Kirti@2301');
-  await page.click('#kc-login');
-  await expect(page.locator('text=Reports')).toBeVisible();
+test("Login test", async ({ page }) => {
+
+  const loginPage = new LoginPage(page);
+
+  await loginPage.navigate();
+  await loginPage.login("kirtisuperorgadmin", "Kirti@2301");
+  await loginPage.verifyLogin();
+
 });
