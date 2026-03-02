@@ -1,26 +1,16 @@
+const BasePage = require("./BasePage");
 const loginSelectors = require("../selectors/loginSelectors");
-
-class LoginPage {
-  constructor(page) {
-    this.page = page;
-  }
-
-  async navigate() {
-    await this.page.goto("https://symtrain.io/");
-  }
+class LoginPage extends BasePage {
 
   async login(username, password) {
-    await this.page.fill(loginSelectors.usernameInput, username);
-    await this.page.fill(loginSelectors.passwordInput, password);
-    await this.page.click(loginSelectors.loginButton);
+    await this.fillInput(loginSelectors.usernameInput, username);
+    await this.fillInput(loginSelectors.passwordInput, password);
+    await this.waitAndClick(loginSelectors.loginButton);
   }
-  
+
   async verifyLogin() {
-  await this.page.locator(loginSelectors.reportsText).waitFor({
-    state: "visible",
-    timeout: 100000 
-  });
-}
+    await this.waitForElement(loginSelectors.reportsText);
+  }
 }
 
 module.exports = LoginPage;
