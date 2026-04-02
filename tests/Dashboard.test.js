@@ -1,21 +1,20 @@
-const { test } = require('@playwright/test');
-const LoginPage = require('../pages/LoginPage');
-const DashboardPage = require('../pages/DashboardPage');
+const { test } = require("@playwright/test");
+const LoginPage = require("../pages/LoginPage");
+const DashboardPage = require("../pages/DashboardPage");
 
-test('Verify dashboard navigation', async ({ page }) => {
+test("Verify dashboard navigation", async ({ page }) => {
 
   const loginPage = new LoginPage(page);
   const dashboardPage = new DashboardPage(page);
 
+  // ✅ Login first
   await loginPage.navigate("https://symtrain.io/");
-
-  await loginPage.login("kirtisuperorgadmin", "Kirti@2301");
+  await loginPage.login("kirti.verma+superorgadmin", "123456");
   await loginPage.verifyLogin();
 
-  // make sure the dashboard menu is expanded
-  await dashboardPage.clickReportsLink();
-  await dashboardPage.clickOrganizationLink();
-  await dashboardPage.clickUsersLink();
-  await dashboardPage.clickSymsLink();
+  // ✅ Dashboard actions
+  await dashboardPage.clickOrganization();
+  await dashboardPage.clickUsers();
+  await dashboardPage.clickSyms();
 
 });

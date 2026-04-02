@@ -6,7 +6,7 @@ test("Login test", async ({ page }) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.navigate("https://symtrain.io/");
-  await loginPage.login("kirtisuperorgadmin", "Kirti@2301");
+  await loginPage.login("kirti.verma+superorgadmin", "123456");
   await loginPage.verifyLogin();
 
 });
