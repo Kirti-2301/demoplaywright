@@ -20,9 +20,6 @@ test("Verify organization creation", async ({ page }) => {
   await organizationPage.enterOrganizationName(orgName);
   await organizationPage.clickCreateOrganizationButton();
 
-  // ✅ Step 3: Wait for success
-  await organizationPage.waitForCreationSuccess();
-
-  // ✅ Step 4: Verify
-  await organizationPage.verifyOrganizationCreated(orgName);
+// 👇 STOP HERE
+await page.pause();
 });

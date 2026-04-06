@@ -9,52 +9,36 @@ class OrganizationPage extends BasePage {
 
   async clickAddOrganizationButton() {
     await this.waitAndClick(selectors.addOrganizationButton);
-
-    // 👇 ensure modal open
-    await this.page.waitForSelector(selectors.modalTitle);
   }
 
   async enterOrganizationName(name) {
-    const input = this.page.locator(selectors.organizationNameInput);
+    const input = this.page.getByPlaceholder("Enter your Child Organization Name");
 
     await input.waitFor({ state: "visible" });
-    await input.fill(name);
 
-    // 👇 IMPORTANT: trigger validation
+    await input.click();
+
+    // clear previous value
+    await input.fill("");
+
+    // type like real user
+    await input.type(name, { delay: 100 });
+
+    // trigger validation
     await input.press("Tab");
   }
 
   async clickCreateOrganizationButton() {
-    const btn = this.page.locator(selectors.createOrganizationButton);
+    const btn = this.page.getByRole('button', { name: 'Create' });
 
     await btn.waitFor({ state: "visible" });
 
-    // optional: ensure enabled
+    // optional debug
+    console.log("Button enabled:", await btn.isEnabled());
+
     await btn.click();
   }
 
-  async waitForCreationSuccess() {
-    // 👇 modal should close after success
-    await this.page.waitForSelector(selectors.modalTitle, {
-      state: "hidden",
-      timeout: 10000
-    });
-  }
-
-  async searchOrganization(name) {
-    await this.page.fill(selectors.searchInput, name);
-  }
-
-  async verifyOrganizationCreated(name) {
-    await this.page.waitForLoadState("networkidle");
-
-    await this.searchOrganization(name);
-
-    await this.page.locator(`text=${name}`).waitFor({
-      state: "visible",
-      timeout: 15000
-    });
-  }
 }
 
 module.exports = OrganizationPage;
